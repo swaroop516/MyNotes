@@ -1,3 +1,42 @@
+Regression Notes:
+
+Regressions Analysis
+Regression analysis is a form of predictive modelling technique which investigates the relationship between a dependent (target) and independent variable (s) (predictor). This technique is used for forecasting, time series modelling and finding the causal effect relationship between the variables.
+
+Types of regression models:
+Linear Regression
+Logistic Regression
+Polynomial Regression
+Support Vector Regression
+Decision Tree Regression
+Random forest Regression
+Stepwise Regression
+Ridge Regression
+Lasso Regression
+ElasticNet Regression
+
+
+There are various kinds of regression techniques available to make predictions. 
+These techniques are mostly driven by three metrics 
+a.number of independent variables
+b.type of dependent variables 
+c.shape of regression line
+
+Linear Regression:
+Linear Regression establishes a relationship between dependent variable (Y) and one or more independent variables (X) using a best fit straight line (also known as regression line).
+
+Best fit line is bases on Least Square Method.
+
+Important Points:
+a.There must be linear relationship between independent and dependent variables
+b.Multiple regression suffers from multicollinearity, autocorrelation, heteroskedasticity.
+c.Linear Regression is very sensitive to Outliers. It can terribly affect the regression line and eventually the forecasted values.
+d.Multicollinearity can increase the variance of the coefficient estimates and make the estimates very sensitive to minor changes in the model. The result is that the coefficient estimates are unstable
+e.In case of multiple independent variables, we can go with forward selection, backward elimination and step wise approach for selection of most significant independent variables.
+
+
+
+#Artificial Neural Networks
 ReLu Function can be used only in the hidden layers. 
 For output layers we should use a Softmax function for a Classification problem to compute the probabilites for the classes 
 and for a regression problem it should simply use a linear function
