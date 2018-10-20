@@ -61,6 +61,18 @@ b.Especially look out for curve towards the ends and see whether those shapes an
 
 
 
+SVM:
+“Support Vector Machine” (SVM) is a supervised machine learning algorithm which can be used for both classification or regression challenges. However,  it is mostly used in classification problems.
+
+SVR will work with both linear and non linear data patterns. It is good with lesser data.
+Kerner type will changed for linear and non linear.
+
+gamma: Kernel coefficient for ‘rbf’, ‘poly’ and ‘sigmoid’. Higher the value of gamma, will try to exact fit the as per training data set i.e. generalization error and cause over-fitting problem.
+
+C: Penalty parameter C of the error term. It also controls the trade off between smooth decision boundary and classifying the training points correctly.
+
+
+In linear regression we are trying to minimize the error between predicted and data. But in SVR it will try to make sure errors will not cross threshold
 
 
 
