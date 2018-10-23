@@ -68,3 +68,4 @@ b.Especially look out for curve towards the ends and see whether those shapes an
 ReLu Function can be used only in the hidden layers. 
 For output layers we should use a Softmax function for a Classification problem to compute the probabilites for the classes 
 and for a regression problem it should simply use a linear function
+	
