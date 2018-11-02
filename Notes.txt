@@ -1,4 +1,4 @@
-Regression Notes:
+﻿Regression Notes:
 
 Regressions Analysis
 Regression analysis is a form of predictive modelling technique which investigates the relationship between a dependent (target) and independent variable (s) (predictor). This technique is used for forecasting, time series modelling and finding the causal effect relationship between the variables.
@@ -75,6 +75,28 @@ C: Penalty parameter C of the error term. It also controls the trade off between
 In linear regression we are trying to minimize the error between predicted and data. But in SVR it will try to make sure errors will not cross threshold
 
 
+Multi Linear Regression:
+
+y=ax1+bx2+cx3+d
+
+If we have a categorical variable in dependent variable list.Convert it to numeric variable based on LabelEncoder.
+
+Note: Assume, we have 500 levels in categorical variables. Then, should we create 500 dummy variables? If you can automate it, very well. Or else, I’d suggest you to first, reduce the levels by using combining methods and then use dummy coding. This would save your time.This method is also known as “One Hot Encoding“.
+
+
+Backward Elimination
+Step1: Select the significamce level to stay in the model(eg: SL=0.05)
+Step2: Fit the full model with all possible predictors
+Step3: Consider the predictor with highest p-value.If p>SL, go to step 4 else finish.
+Step4: Remove the predictor if its greated than SL
+Step5: Fit model without this varible.
+ 
+
+What is P-value?
+the p-value or probability value or asymptotic significance is the probability for a given statistical model that, when the null hypothesis is true.
+
+A small p-value (typically ≤ 0.05) indicates strong evidence against the null hypothesis, so you reject the null hypothesis. 
+A large p-value (> 0.05) indicates weak evidence against the null hypothesis, so you fail to reject the null hypothesis.
 
 #Artificial Neural Networks
 ReLu Function can be used only in the hidden layers. 
