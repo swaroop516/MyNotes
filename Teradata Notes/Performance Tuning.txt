@@ -1,0 +1,52 @@
+The First step is Explain plain.
+
+What we need to look in explain plan?
+	TRANSLATE keyword
+	Confidence Level
+	Join strategies
+	Large Duplication of spool file
+	Secondary Index and its usage
+	Dynamic Partition Elimination with PPI
+	Usage of Diagnostic helps Stats
+
+TRANSLATE keyword:We see this in explain plan when while joining 2 tables, the joining column data type is not same and optimizer internally convert the data type of column of a table for join. To have a good join, it’s always recommended to have SAME DATA TYPE for joining columns.  If it’s not feasible to change the data type of one of the table in customer environment then create a temporary table(Global temporary table or Volatile table) and change the data type of the joining column as per the need if its feasible.
+
+Confidence Level:  in the explain plan Confidence phrase shows that weather statistics are current in the table or not. There are 3 type of Confidence level and each has a meaning as:
+
+a.	High Confidence: The stats are current and optimizer is using them.
+b.  Low Confidence: The stats are stale and stats need to be collected on the table. If optimizer a creating a spool file and leveraging it for next step then many time it shows Low Confidence phrase for those kind of steps. 
+c.  No Confidence: Either stats are never collected on the table or an intermediate spool file was created which cause optimizer to show No Confidence phrase.
+
+Solution: 
+•	collect statistics on the joining column. This helps optimizer to select best suitable plan for the query. 
+•	If the column has lots of duplicate (City, state, gender etc.) then many times, stats collection also doesn’t help the query. In this case, try dropping the stats defined on that column or ignoring the stats by using a TRIM function for that column.
+
+
+
+Join strategies: 
+a.	MERGE JOIN:  This is most efficient type of join strategy in Teradata. Optimizer uses this join strategy when one table joined with other table on columns (or set of columns) which are PRIMARY INDEX in both tables and data types of columns are also same.  If there is a difference on data type of the column then this won’t result in MERGE JOIN strategy.  This is also very efficient as it doesn’t result in spool file creation and processing happen at AMP local itself.
+b.	ROW KEY BASED MERGE JOIN: in addition to conditions of MERGE JOIN, if tables also have PARTION PRIMARY INDEX defined with similar expression and data type then the join happen with ROW KEY BASED MERGE JOIN. This is also very efficient and doesn’t result in spool file creation and processing happen at AMP local itself. 
+c.	PRODUCT JOIN: This kind of join strategy happen when:
+	i.	joining condition missed out between the tables 
+	ii.	un necessary stats collected on a highly skewed column
+	iii.its purposefully made like that with a table having only one record to join with other table. 
+
+Large Duplication of spool file: 
+This usually happen when optimizer creates an intermediate spool file and use that for joining in next step. 
+
+As its created in the spool, it doesn’t have any Stats or index and it’s just created per the distribution of source table across all AMPs. Many times optimizer estimates such kind of spool file duplications across all AMPs for joining purpose which is very much resource consuming and cause query to run bad. 
+
+For this kind of scenario, try to create a VOLATILE TABLE for that portion of SQL(derived table) with PI as joining column and Collect stats on joining column. This helps optimizer to choose a better execution plan for the query. 
+
+Secondary Index and its usage: 
+A secondary index in Teradata provides and alternative path to access data of a table if frequently queried value is less than 10% of the overall table row count. 
+E.g. there is a table ABCD with 100 records and it has only 5 records with CURR_IND = ‘Y’ and most of the queries are using filter condition of CURR_IND = ‘Y’ in the query while using table ABCD, then secondary index on CURR_IND field will help those kind of queries. 
+
+However, points to note here is: 
+•	Creation of secondary index cause additional space utilization for the table due to another index sub table created internally. 
+•	A table getting loaded with MLOAD or FASTLOAD: we cannot create secondary index on such tables as FASTLOAD and MOAD doesn’t support 
+•	Usage of secondary index should be visible explain plan of the query to verify if it’s really useful or not. 
+
+Dynamic Partition Elimination with PPI: 
+When range based filter condition used on a column having partitioned primary index defined used in the table, then you can find dynamic partition elimination keyword in the explain plan. For any query using a range based filter on a column, makes that column a candidate for PPI. If we have multiple columns for which range based filter used then we could think of using a MLPPI(Multi Level Partition Primary Index).
+
