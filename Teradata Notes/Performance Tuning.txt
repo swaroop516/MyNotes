@@ -50,3 +50,19 @@ However, points to note here is:
 Dynamic Partition Elimination with PPI: 
 When range based filter condition used on a column having partitioned primary index defined used in the table, then you can find dynamic partition elimination keyword in the explain plan. For any query using a range based filter on a column, makes that column a candidate for PPI. If we have multiple columns for which range based filter used then we could think of using a MLPPI(Multi Level Partition Primary Index).
 
+
+Diagnostic helps Stats: 
+Explain plan even provides recommendations for statistics at the end of explain plan if you execute statement “DIAGNOSTIC HELPSTATS ON FOR SESSION;” prior to execution of explain of SQL. Not all stats recommended may be useful to tune the SQL. However, its recommended to try ones with “High Confidence” and if they are also used in the query for joining or aggregation purpose. This may help to tune the SQL.
+
+
+Apart from (AMPCPU, TotalIOCount, Response Time), there are few more performance parameter of the query which gives necessary hint for tuning: 
+•	CPUSKW/IOSKW: 
+If this parameter is >3 for a query then the query is highly skewed. Root cause could be the skew ness of the source table which is used in the query. Changing the Primary index of the table might help in these kinds of cases. 
+•	PJI: How many cpu milliseconds are taken per io
+This parameter > 3   is an indication that a product join is happening in the query. The root cause could be: 
+	a.	A join condition was missed out while joining the tables.
+	b.	Optimizer is selecting a bad plan due to missing stats or due to creation of the spool files. Making volatile table for derived table might help in this case.  
+•	UII (Unnecessary IO Indicator): How many IO counts per cpu millisecond. More UII means many IO for 1 CPU millisecond
+this parameter > 3 is an indication of excessive IO due to a missing index.  Following index could get implemented in these kinds of cases. 
+	a.	Secondary index: if a column is used in the query which where clause and that column value exist in the table for less than 10% of records then a secondary index on that column will help the query. 
+	b.	PPI: if the query is using a range based filter then this will be helpful for the query.
