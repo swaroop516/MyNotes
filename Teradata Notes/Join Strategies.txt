@@ -1,0 +1,90 @@
+Types of Join Strategies
+1.Product
+2.Merge
+   A.ROW HASH MATCH SCAN
+   B.INCLUSION
+   C.EXCLUSION
+3.ROW HASH
+4.NESTED
+5.NPPI and PPI join
+6.PPI and PPI join
+
+1.Product Join
+Smaller table is always duplicated in all amps because each row has to be compared with other based on join condition.
+Production join will happen on below cases
+a.When join condition is not based on equality
+b.WHERE clause is missing
+c.There are too few join conditions
+d.Join conditions are ORed together
+e.When no proper alias
+f.When Optimised predicts this will be less expensive than the other types.
+
+2.Merge Join
+Merge join will be done when join condition wiith equality condition.
+Below are the join processing steps.
+a.Indentify smaller table
+b.Put the qulifying data from same/both tables into the spool(if necessary)
+c.Move the spool to the Amps based on the Join column row hash(if necessary)
+d.Sort the spool rows by joining column row hash value(if necessary)
+e.Compare these rows with join column row hash
+
+Merge Join Strategy consists of duplicating and sorting the small table on all Amps and locally building a copy of large table 
+and sorting it by joining column row hash.
+
+3.Row Hash Join
+In row hash join,the smaller table is sorted on join column row hash and then duplicated on all AMPS. 
+The larger tables is then processed a row at a time and the rows in the tables do not have to sort on row hash of joining column.
+For those rows that qualify for joining(WHERE/On) the row hash of join column is used to do a binary search in smaller table.
+
+Row hash join process:
+a.Indentify the smaller table.
+b.Redistribute or duplicate the smaller table on all AMPS
+c.Sort the cache memory based on joining column row hash
+d.Hold the rows into memory
+e.Use join column row hash of large table to do binery search in smaller table
+
+4.NESTED Join
+NESTED join is most efficient join.
+This is the only join which doesn't always use all AMPs.
+To choose the NESTED join optimiser must have below.
+a.An equality value for a Unique index(UPI or USI) on Table1(Where UPI/USI = 'value')
+b.Join on a column of that single row to any index on Table2
+
+5.NPPI and PPI join
+When table has NPPI which is joined with PPI table then Sliding window technique will happen which can be slower than the direct join.
+Usually CPU utlization will be somewhat higher for PPI and memory usage also.
+
+Below is the way the joining will happen:
+a.Teradata can keep one block of NPPI and as many partitions of PPI table fits in memory to facilitate sliding joining technique.
+b.Each row in NPPI is compared with all partitions blocks of PPI in memory.
+c.Once the above step is done. Next paritions of PPI table will come to memory.
+d.NPPI table again starts from begin to search in these partitions blocks of  PPI table in memory.
+e.Untill all partitions finished this will continue.
+
+This type for join usually have worse performance than NPPI and NPPI join.
+
+In some cases it will be more efficient to create a spool file that is hash ordered from the PPI paritions rather than to use
+sliding window technique.
+
+6.PPI to PPI -Rowkey based merge join
+When 2 tables are participating in join both tables have same PI and same partions defined and specified as equality join terms
+then row key based merge join will occur.
+There will not be any redistribution or sorting of rows.
+
+7.PPI to PPI - Unmatched Partitions
+When 2 tables joined with different partions in each then sliding window technique will happen.
+As explained above in NPPI and PPI join.
+
+Below  is the way joining will happen
+a.Teradata can keep  1 parition blocks of PPI and few partitions of PPI table fits in memory to facilitate sliding joining technique.
+b.Each row in 1 partition PPI is compared with all partitions blocks of PPI in memory.
+c.Once the above step is done. Next paritions of PPI table will come to memory.
+d.Each row in 1 partition PPI table again starts from begin to search in these partitions blocks of  PPI table in memory.
+e.Untill all partitions finished this will continue.
+f.Next partion of left table will come and the process repeats from b to e.
+
+
+
+
+
+
