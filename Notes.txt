@@ -83,14 +83,37 @@ If we have a categorical variable in dependent variable list.Convert it to numer
 
 Note: Assume, we have 500 levels in categorical variables. Then, should we create 500 dummy variables? If you can automate it, very well. Or else, I’d suggest you to first, reduce the levels by using combining methods and then use dummy coding. This would save your time.This method is also known as “One Hot Encoding“.
 
+5 Methods of building model:
+1.All in
+2.Backward Elimination
+3.Forward Elimination
+4.Bi-directional Elimination
+5.Score Comparision
 
-Backward Elimination
+When to use each
+1.All in
+When we have prior knowledge of all varaibles
+When we have to build models bases on all varaibles as given by buisness
+
+2.Backward Elimination
 Step1: Select the significamce level to stay in the model(eg: SL=0.05)
 Step2: Fit the full model with all possible predictors
 Step3: Consider the predictor with highest p-value.If p>SL, go to step 4 else finish.
 Step4: Remove the predictor if its greated than SL
-Step5: Fit model without this varible.
- 
+Step5: Fit model without this varible. AFter 5 go back to Step3
+
+3.Forward Elimination
+Step1: Select the significamce level to stay in the model(eg: SL=0.05)
+Step2: Fit the full model .Select One with Lowest P-Value. Starts with one varaible and all other varaible are added once it quealifies significance level.
+Step3: Keep This varaible and fit all possible models with one extra predictor added to the ones you already have.
+Step4: Consider the predictor with the lowest P-value. if P<SL , go to STEP3,otherwise go to FIN.
+
+4.Bi-directional Elimination
+Step1: Select the significamce level to enter and stay in the model(eg: SLENTER=0.05,SLSTAY=0.05)
+Step2: Perform the next step of Forward Selection (new varaibles must have P<SLENTER to enter)
+Step3: Perform the All steps of Backward Selection (old varaibles must have P<SLSTAY to enter)
+Step4: No new varaible can enter and old varaible cam exit
+Step5: Your model is ready
 
 What is P-value?
 the p-value or probability value or asymptotic significance is the probability for a given statistical model that, when the null hypothesis is true.
