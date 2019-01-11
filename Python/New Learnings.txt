@@ -1,0 +1,55 @@
+#ZIP-
+zip will always return tuple
+
+Python code-
+b='abcdefghi'
+for i in zip(*[iter(b)]*2):
+    print(i)
+
+Result-
+('a', 'b')
+('c', 'd')
+('e', 'f')
+('g', 'h')
+
+#setdefault-
+The setdefault() method returns the value of the item with the specified key.
+
+If the key does not exist, insert the key, with the specified value
+
+Python code-
+car = {
+  "brand": "Ford",
+  "model": "Mustang",
+  "year": 1964
+}
+
+x = car.setdefault("color", "white")
+
+print(x)
+
+Result-
+Mustang
+
+#Append and Extend-
+Append adds its argument as a single element to the end of a list. The length of the list itself will increase by one.
+Extend iterates over its argument adding each element to the list, extending the list. The length of the list will increase by however many elements were in the iterable argument.
+
+eg-
+x = [1, 2, 3]
+x.append([4, 5])
+print(x)
+[1, 2, 3, [4, 5]]
+
+x = [1, 2, 3]
+x.extend([4, 5])
+print (x)
+[1, 2, 3, 4, 5]
+
+
+#Frequency in List
+a = [1,1,1,1,2,2,2,2,3,3,4,5,5]
+d = {x:a.count(x) for x in a}
+
+#to print elements side by side
+print(i,ends="")

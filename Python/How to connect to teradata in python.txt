@@ -1,0 +1,11 @@
+import teradata
+import pandas as pd
+
+host,username,password = 'hostname','username', 'password'
+#Make a connection
+udaExec = teradata.UdaExec (appName="test", version="1.0", logConsole=False)
+
+session = udaExec.connect(driver='Teradata',method="odbc", system=host,
+        username=username, password=password);
+for row in session.execute("SELECT * FROM SANDBOX.EMP"):
+    print(row)
