@@ -1,4 +1,4 @@
-The First step is Explain plain.
+﻿The First step is Explain plain.
 
 What we need to look in explain plan?
 	TRANSLATE keyword

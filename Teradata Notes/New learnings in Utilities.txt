@@ -1,0 +1,25 @@
+###TPT
+
+##Extract
+#to split TPT export file into n files we have to give as below in TPT export script.Each file count is approximatly same(Not same count)
+APPLY
+            TO OPERATOR
+            (
+            Data_Connector[@files]
+            )
+
+#Command for execution of TPT export for split
+tbuild -f TptScriptName -j JobName -L LogName -u "files=$files" -C
+-C option will split into blocks and assaign each block in round robin style
+
+##Loading
+#to skip double quotes within the data.Below needs to be set in TPT script.
+VARCHAR OpenQuoteMark = '"',
+VARCHAR CloseQuoteMark = '"',
+
+
+###MLOAD
+mload doesn't support NOPI tables.But Fload will support NOPI tables.---Reason need to find?
+
+#to release mload lock on tables.below command will be executed from SQL assistant
+RELEASE MLOAD TABLENAME

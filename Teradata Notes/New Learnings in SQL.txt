@@ -1,0 +1,32 @@
+#Assagining count value to variable in unix
+count=$(echo "SELECT '>'||COUNT(*) FROM tablename" | bteq .logon ${TdpId}/${UserName},${UserPassword} 2>&1 |grep '^>' |sed -e "s/^>//")
+
+#CUBE function
+group by cube(a,b)
+grouping by all possible combinations as
+group by a,b
+group by a,null
+group by null,b
+group by null,null
+
+#CUBE function
+group by c,cube(a,b)
+grouping by below combinations as by keeping c always
+group by c,a,b
+group by c,a,null
+group by c,null,b
+group by c,null,null
+
+#ROLLUP function
+group by rollup(a,b)
+grouping by below combinations as
+group by a,b
+group by a,null
+group by null,null
+
+#ROLLUP function
+group by c,rollup(a,b)
+grouping by below combinations as
+group by c,a,b
+group by c,a,null
+group by c,null,null
