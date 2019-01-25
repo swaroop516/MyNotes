@@ -1,0 +1,54 @@
+#to compare folders which has copied from one server to another server.The below command will check file permissions,ownership also
+tar -cf - directory| md5sum
+
+#to compress the file
+tar -cvzf pa186024.tar.gz pa186024
+
+#If you are on the computer from which you want to send file to a remote computer:
+
+scp /file/to/send username@remote:/where/to/put
+
+scp /data01/home/pgteraprd/icrm/remove_logs.txt s606878@VA1UCPDLAD1CP08:/data01/home/pgteradev/
+
+
+scp /data01/home/pgteraqa/icrm/remove_logs.txt s606878@143.16.92.7:/data01/home/pgteradev
+
+
+scp s606878@143.16.92.23:/data01/home/pgteraqa/icrm/remove_logs.txt /data01/home/pgteradev
+
+
+#On the other hand if you are on the computer wanting to receive file from a remote computer:
+
+scp username@remote:/file/to/send /where/to/put
+
+
+
+#sftp
+
+sftp 
+
+#login as root
+sudo su root
+
+#to come out from root
+exit
+
+
+# Directories to compare
+diff --brief --recursive <directory name>/ <directory name>_YYYYMMDD /
+
+# command to create directory structure without files in it
+
+rsync -a --include '*/' --exclude '*' /path/to/source /path/to/dest
+
+# to replace in files
+sed -i 's/pgteraqa/pgteradev/g' *.env
+
+# to print line n in file
+sed -np filename
+
+#Splitting files into fixed number of output file line count
+split -NumberOfLineToSplit "InputFile.txt" "OutPutfilename".
+
+#Splitting files based on size
+split --bytes=1024M "InputFile.txt" "OutPutfilename".
