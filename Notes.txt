@@ -143,6 +143,11 @@ And any variable without a strong correlation will make adjusted R-squared decre
 
 R Square = 1-Sum(Yactual-YPred)^2/Sum(Yactual-Ymean)^2
 
+Adjusted R Square = 1-(1-R Square)(N-1)/(N-p-1)
+
+p is Number of predictors
+N is Total Sample Size
+
 #Artificial Neural Networks
 ReLu Function can be used only in the hidden layers. 
 For output layers we should use a Softmax function for a Classification problem to compute the probabilites for the classes 
