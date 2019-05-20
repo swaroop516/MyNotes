@@ -140,6 +140,9 @@ Typically, the more non-significant variables you add into the model, the gap in
 Adjusted R-squared provides an adjustment to the R-squared statistic such that an independent variable that has a correlation to Y increases adjusted R-squared 
 And any variable without a strong correlation will make adjusted R-squared decrease. That is the desired property of a goodness-of-fit statistic.
 
+
+R Square = 1-Sum(Yactual-YPred)^2/Sum(Yactual-Ymean)^2
+
 #Artificial Neural Networks
 ReLu Function can be used only in the hidden layers. 
 For output layers we should use a Softmax function for a Classification problem to compute the probabilites for the classes 
