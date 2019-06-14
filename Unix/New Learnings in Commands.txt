@@ -56,3 +56,20 @@ split --bytes=1024M "InputFile.txt" "OutPutfilename".
 
 #disk usage space in only 1 level of directory with human readable format.
 du -h -d 1
+
+
+#Unix logging
+
+#Syntax To redirect all output to file
+command-name >  output.txt
+
+#Syntax To redirect all error to file
+command-name 2>  Error.txt
+
+#Syntax to redirect both output (stdout) and errors (stderr) to different files
+command1 > out.txt 2> err.txt
+
+#Syntax to redirect both output (stdout) and errors (stderr) to same file
+command1 > everything.txt 2>&1
+
+
