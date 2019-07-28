@@ -8,13 +8,13 @@ tar -cvzf pa186024.tar.gz pa186024
 
 scp /file/to/send username@remote:/where/to/put
 
-scp /data01/home/pgteraprd/icrm/remove_logs.txt s606878@VA1UCPDLAD1CP08:/data01/home/pgteradev/
+scp /data01/home/pgteraprd/icrm/remove_logs.txt User@ServerNameOrIP:/data01/home/pgteradev/
 
 
-scp /data01/home/pgteraqa/icrm/remove_logs.txt s606878@143.16.92.7:/data01/home/pgteradev
+scp /data01/home/pgteraqa/icrm/remove_logs.txt User@ServerNameOrIP:/data01/home/pgteradev
 
 
-scp s606878@143.16.92.23:/data01/home/pgteraqa/icrm/remove_logs.txt /data01/home/pgteradev
+scp User@ServerNameOrIP:/data01/home/pgteraqa/icrm/remove_logs.txt /data01/home/pgteradev
 
 
 #On the other hand if you are on the computer wanting to receive file from a remote computer:
