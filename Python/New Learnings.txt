@@ -53,3 +53,7 @@ d = {x:a.count(x) for x in a}
 
 #to print elements side by side
 print(i,ends="")
+
+
+#to get all modules and versions
+pip freeze 
