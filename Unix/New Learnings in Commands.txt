@@ -73,3 +73,9 @@ command1 > out.txt 2> err.txt
 command1 > everything.txt 2>&1
 
 
+log ()
+# Parameter
+# 1: Log Text 
+{
+printf "$(date) ${script_name}: ${1}\n" | tee -a ${log_file}
+}
