@@ -23,3 +23,18 @@ mload doesn't support NOPI tables.But Fload will support NOPI tables.---Reason n
 
 #to release mload lock on tables.below command will be executed from SQL assistant
 RELEASE MLOAD TABLENAME
+
+##TPT SPLIT based on file count
+filecount=$1
+
+count=$(echo "SELECT '>'||COUNT(*) FROM D_RLDM03_V.LYLTY_MBR_HIST" | bteq .logon tddev1cop1.ngco.com/d_majaisw,happen25 2>&1 |grep '^>' |sed -e "s/^>//")
+
+files=`expr $count / $filecount`
+
+echo $files
+
+tbuild -f LYLTY_MBR_HIST.TPTEXP -j LYLTY_MBR_HIST -L /home/spagond -u "files=$files" -C
+
+RC=$?
+
+echo "tpt execution completed,$RC"
