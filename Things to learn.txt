@@ -1,0 +1,93 @@
+Real-Time Human Pose recognistion in parts from single depth images
+
+kmeans++
+
+cost function
+
+How many hidden layers we can give in neural network and what is the consequence if we give more hidden layers?
+
+How do we know we applying stochastic or batch gradient
+
+What is batch_size in ANN and epoc?
+As per myunderstanding batchsize is after number of rows weights has to be updated.
+
+
+classifier.fit(X_train, y_train, batch_size = 10, nb_epoch = 100)
+Here nb_epoch means 100 times weights will get updated in iteration way.
+And batch_size = 10 means for every 10 observations weights will get updated.
+If i correlate these 2. Does this mean for intiail 10*100=1000 observations weights will get updated? Based on this it will predic for rest?Correct me if am wrong on this
+Can we correlate these 2 or not? If yes how we can correlate?
+
+
+scs.ryerson.ca/~aharley/vis/conv/flat.html	#tool for convolution and pool
+
+
+Weights will get varied even in testing set also?
+For each image weight will get differ? Or it will generalise based on all training sets?
+
+google softmax output function jofrey hinton
+
+
+
+Regression models
+Linear Regression
+Logistic Regression
+Polynomial Regression
+Support Vector Regression
+Decision Tree Regression
+Random forest Regression
+Stepwise Regression
+Ridge Regression
+Lasso Regression
+ElasticNet Regression
+
+
+Logistic Regression, KNN, Random Forest, Adaboost, XgBoost, Grandient Descent, KMeans etc
+
+Need to study:
+objects detection in image using python
+P Value
+CNN flow
+Time series problems
+CNN vs RNN vs LSTM
+Cookies?What kind of information we get in that?
+GUI using python
+object detection in video using python
+Text Analysis
+Neural networks usage in nlp
+Table operators in teradata
+REST API and SOAP API
+Reason for SVM is slow for very large dataset than Logistic regression?
+Elastic search
+Theano
+keras
+tensorflow
+Recursive Feature Elimination
+Regularization
+Dynamic programming
+hufmann coding
+Google trends
+pytrends
+
+Statstics-
+CDF,PDF
+F value
+T Value
+R Squared
+Adjusted R Squared
+Mean Square Error
+Chebyshev's inequality
+Explained varaince vs Varaince
+
+
+
+
+Finished
+Use API in Python
+image in pixels
+Null Hypothesis
+Recursive Query
+Recursive functions in python
+Hive partition/bucketing concept
+
+
