@@ -1,0 +1,9 @@
+pyspark --master local[2]
+from pyspark.streaming import StreamingContext;
+sc.setLogLevel("OFF");
+ssc5 = StreamingContext(sc, 5);
+baseDS = ssc5.socketTextStream("localhost", 9999);
+wordcntDS = baseDS.flatMap(lambda line: line.split(" ")).map(lambda word:(word,1)).reduceByKey(lambda a,b: a+b);
+--wordcntDS.pprint()
+wordcntDS.saveAsTextFiles("hdfs:///user/data/Streaming/0000")
+ssc5.start()

@@ -1,0 +1,116 @@
+mysql -uroot -pcloudera
+
+create database torch; 
+use torch;
+
+create table bdb_basics
+(
+id integer,
+name varchar(50),
+deg varchar(25),
+salary decimal(12,2),
+dept char(2)
+);
+
+insert into bdb_basics (id,name,deg,salary,dept) values(1,"Cersei","MA",100000,"HS");
+insert into bdb_basics (id,name,deg,salary,dept) values(2,"Margerie","MS",180000,"HS");
+insert into bdb_basics (id,name,deg,salary,dept) values(3,"Tyrian","MBA",1800000,"HS");
+insert into bdb_basics (id,name,deg,salary,dept) values(4,"Geoffrey","CA",200000,"HS");
+insert into bdb_basics (id,name,deg,salary,dept) values(5,"Arya","MBA",1900000,"HS");
+insert into bdb_basics (id,name,deg,salary,dept) values(6,"Khaleesi","CFA",2000000,"HS");
+
+create table bdb_home
+(
+id integer,
+address varchar(50),
+phone integer,
+pincode integer
+);
+
+insert into bdb_home (id,address,phone,pincode) values(1,"Kings Landing",435465767,45656455);
+insert into bdb_home (id,address,phone,pincode) values(2,"Winterfell",5677465767,652256455);
+insert into bdb_home (id,address,phone,pincode) values(3,"Casterly Rock",993465767,27776455);
+insert into bdb_home (id,address,phone,pincode) values(5,"The Red Keep",1123465767,632446455);
+insert into bdb_home (id,address,phone,pincode) values(6,"Dragonstone",776565767,981256455);
+
+**************************************************8
+
+-- to import into HDFS
+sqoop import --connect jdbc:mysql://localhost/torch --username root --password cloudera --table bdb_basics --m 1 --target-dir /user/training/sqoop/dir1
+
+hadoop --fs cat ""
+
+
+
+-- with filters
+sqoop import --connect jdbc:mysql://localhost/torch --username root --password cloudera --table bdb_basics --m 1 --where "salary > '1500000'" --target-dir /user/training/sqoop/dir2 
+
+-- with joins and splits
+sqoop import --connect jdbc:mysql://localhost/torch --username root --password cloudera --query 'SELECT a.id, a.name, b.address FROM bdb_basics a JOIN bdb_home b on (a.id = b.id) WHERE $CONDITIONS' --split-by a.id --target-dir /user/training/sqoop/dir3
+--****!!! how are the splits generated !!!
+
+sqoop import --connect jdbc:mysql://localhost/torch --username root --password cloudera --query 'SELECT a.id, a.name, b.address FROM bdb_basics a JOIN bdb_home b on (a.id = b.id) WHERE $CONDITIONS' --split-by a.id -m3 --target-dir /user/training/sqoop/dir4
+--****!!! control how splits are generated !!!
+
+sqoop import --connect jdbc:mysql://localhost/torch --username root --password cloudera --query 'SELECT a.id, a.name, b.address FROM bdb_basics a JOIN bdb_home b on (a.id = b.id) WHERE $CONDITIONS' -m1 --target-dir /user/training/sqoop/dir5
+--****!!! no splits are generated !!!
+
+
+-- for incremental 
+insert into bdb_basics (id,name,deg,salary,dept) values(7,"Odin","CPA",3000000,"HP");
+insert into bdb_basics (id,name,deg,salary,dept) values(8,"Mydin","CPA",3200000,"HP");
+
+sqoop import --connect jdbc:mysql://localhost/torch --username root --password cloudera --table bdb_basics --m 1 --target-dir /user/training/sqoop/dir1 --incremental append --check-column id --last-value 6
+
+--wip--sqoop import --connect jdbc:mysql://localhost/torch --username root --password cloudera --table bdb_basics --target-dir /user/training/marxis2 --check-column <Date_Column> --incremental lastmodified --last-value 2014-01-25<to be specified> 
+--(for dates)
+
+
+-- importing into HIVE
+create table hv_bdb_basics
+(
+id int,
+name varchar(50),
+deg varchar(25),
+salary decimal(12,2),
+dept char(2)
+)
+row format delimited
+FIELDS terminated BY ','
+LINES terminated BY '\n' stored AS textfile ;
+
+sqoop import --connect jdbc:mysql://localhost/torch --username root --password cloudera --table bdb_basics --m 1 --target-dir /user/training/scoop/dir5 --fields-terminated-by "," --hive-table hv_bdb_basics --hive-import --as-textfile
+
+sqoop import --connect jdbc:mysql://localhost/torch --username root --password cloudera --table bdb_basics --m 1 --target-dir /user/training/sqoop/hive --hive-import --create-hive-table --hive-table bdb_basics
+*******************************************************
+
+-- importing into HBase
+create "hbs_bdb_basics", "qual","home"
+
+sqoop import --connect jdbc:mysql://localhost/torch --username root --password cloudera --table bdb_basics --columns "id,name,deg" --hbase-table hbs_bdb_basics --column-family qual --hbase-row-key id -m 1
+    
+sqoop import --connect jdbc:mysql://localhost/torch --username root --password cloudera --table bdb_home --columns "id,address,phone" --hbase-table hbs_bdb_basics --column-family home --hbase-row-key id -m 1  
+
+>scan 'hbs_bdb_basics'  (from the hbase terminal)
+
+--EXPORT - create this table in mysql
+
+create table scp_imp_bsc_new
+(
+id integer,
+name varchar(50),
+city varchar(50)
+);
+
+create table scp_imp_bsc
+(
+id integer,
+name varchar(50)
+);
+
+hadoop fs -mkdir /user/training/sqoop/dir6
+hadoop fs -put movers.txt /user/training/sqoop/dir6
+sqoop export --connect jdbc:mysql://localhost/torch --username root --password cloudera --table scp_imp_bsc --export-dir /user/training/sqoop/dir6
+
+
+

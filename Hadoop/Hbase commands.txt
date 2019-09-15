@@ -1,0 +1,70 @@
+hbase shell
+exit
+
+--sudo service zookeper-server start
+--sudo service zookeper-server stop
+
+create 'empdata', {NAME => 'perz', VERSIONS => 5},{NAME => 'proff', VERSIONS => 5}  
+
+
+put 'empdata','1','perz:name','Ethan' 
+put 'empdata','1','perz:city','Toronto' 
+put 'empdata','1','perz:age','34' 
+
+put 'empdata','1','proff:desig','Data Scientist'
+put 'empdata','1','proff:firm','Occulant'
+
+scan 'empdata'
+
+
+
+put 'empdata','2','perz:name','Margerie' 
+put 'empdata','2','perz:age','28' 
+put 'empdata','2','perz:gender','F' 
+
+
+put 'empdata','2','proff:desig','Princess'
+put 'empdata','2','proff:firm','Govt'
+put 'empdata','2','proff:alliances',3
+
+==========
+
+put 'empdata','2','perz:name','Mark' 
+put 'empdata','2','perz:age','15' 
+
+-- get is to read a single row at a time --
+get 'empdata', '1'
+
+scan 'empdata', {VERSIONS => 3}
+get 'empdata', '2', {COLUMN => 'perz:age', VERSIONS => 2}
+get 'empdata', '2', {COLUMN => 'perz:name', VERSIONS => 2}
+get 'empdata','2',  {COLUMN => 'proff:firm'}
+
+scan 'empdata', {FILTER => "PageFilter(1)"}
+
+scan 'empdata', {FILTER => "FirstKeyOnlyFilter()"}
+-- sorted alphabetically by age
+
+scan 'empdata', {FILTER => "KeyOnlyFilter()"}
+-- to give you only the keys - the metadata
+
+scan 'empdata', {FILTER => "PrefixFilter('1')"}
+scan 'empdata', {FILTER => "MultipleColumnPrefixFilter('age','firm')"}
+
+-- the actual filtering
+scan 'empdata', {COLUMN => 'perz:age', FILTER => "ValueFilter(=,'binaryprefix:28')"}
+
+scan 'empdata', {COLUMN => 'perz:name', FILTER => "ValueFilter(=,'binaryprefix:Ethan')"}
+
+scan 'empdata', {COLUMN => 'perz:name', FILTER => "ValueFilter(=,'binary:Ethan')"}
+
+
+scan 'empdata', {FILTER => "FamilyFilter(=,'binaryprefix:perz')"}
+
+scan 'empdata', {FILTER => "TimestampsFilter(1501081302440,1501081302397)"}
+
+===================
+disable 'empdata'
+is_disabled 'empdata'
+enable 'empdata'
+drop 'empdata'

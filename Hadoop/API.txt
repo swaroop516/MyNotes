@@ -1,0 +1,5 @@
+dev.twitter.com
+
+
+JAR FILE- JSON SERDE
+--hive to create json table

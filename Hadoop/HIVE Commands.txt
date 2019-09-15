@@ -1,0 +1,214 @@
+cat > raindance.txt << EOF
+1000000|mahesh,chimmiri|hyd,ap|40|happy:true
+1000001|suresh,chimmili|hyd,ap|42|sad:false
+1000002|kayne,young,martin,young|prs,ap|31,35|sad:false,retired:true
+1000003|Molini,Ng|prs,ap|35|sad:true
+EOF
+
+hadoop fs -mkdir /user/training
+hadoop fs -mkdir /user/training/swaroop
+hadoop fs -put raindance.txt /user/training/swaroop
+
+--hadoop fs -chmod 777 /user/training/swaroop/raindance.txt
+
+<terminal shell>beeline -u jdbc:hive2://
+----- !q quits the beeline shell 
+
+/*** example of ***/
+CREATE TABLE empmahidata(
+cid bigint,
+cname struct<fname:string,lname:string>,
+cadd  struct<city:string,state:string>,
+cages array<smallint>,
+cfeel map<string,boolean>
+)
+row format delimited
+FIELDS terminated BY '|'
+collection items terminated BY ','
+map KEYS terminated BY ':'
+LINES terminated BY '\n' stored AS textfile location '/user/training/swaroop/';
+
+SELECT * FROM empmahidata;
+
+DROP TABLE empmahidata;------------------/user/training/swaroop/ directory get deleted no matter files are matching or not
+
+hadoop fs -put raindance.txt /user/training/swaroop
+
+<terminal shell>beeline -u jdbc:hive2://
+
+CREATE EXTERNAL TABLE empmahidata(
+cid bigint,
+cname struct<fname:string,lname:string>,
+cadd  struct<city:string,state:string>,
+cages array<smallint>,
+cfeel map<string,boolean>
+)
+row format delimited
+FIELDS terminated BY '|'
+collection items terminated BY ','
+map KEYS terminated BY ':'
+LINES terminated BY '\n' stored AS textfile location '/user/training/swaroop/';
+
+SELECT * FROM empmahidata;
+
+
+SELECT cadd.city from empmahidata;
+SELECT distinct cadd.city from empmahidata;
+
+SELECT CAGES[0] from empmahidata;
+SELECT cfeel["sad"] from empmahidata;
+
+
+-- to be done on hive
+CREATE EXTERNAL TABLE agedata2(
+serial_num int,
+cname varchar(50)
+)
+row format delimited
+FIELDS terminated BY ','
+LINES terminated BY '\n' stored AS textfile 
+
+
+-- to be done on hdfs
+cat > movers.txt << EOF
+100,mahesh
+1001,suresh
+1002,kayne
+1003,Molini
+EOF
+
+hadoop fs -mkdir /user/training/merkel/
+hadoop fs -put movers.txt /user/training/merkel/ 
+
+-- to be done on hive
+LOAD DATA INPATH '/user/training/merkel/movers.txt' INTO TABLE AGEDATA2;----------it will move the file from hdfs to hive local
+
+LOAD DATA LOCAL INPATH '/home/cloudera/movers.txt' INTO TABLE AGEDATA2; ---------it will copy the file from local to hive local
+LOAD DATA LOCAL INPATH '/home/cloudera/movers.txt' OVERWRITE INTO TABLE AGEDATA2; 
+
+
+--LOAD DATA INPATH '/user/training/merced/newfile.txt' INTO TABLE AGEDATA
+SELECT * FROM AGEDATA2;
+
+
+SHOW TABLES;---list all tables in the database
+
+DESC <TABLE-NAME>;-----table structure
+
+DESC formatted <TABLE-NAME>;-----completed information about table including location
+
+cat > leopard.txt << EOF
+1000|2334423|'www.runtastic.com'|'10.10.24.34'|'2010-12-24'|'US'
+1001|2345654363|'www.sabbatical.com'|'10.10.24.34'|'2010-12-21'|'UK'
+1002|43544364356|'www.howstuffworks.com'|'10.10.24.34'|'2010-10-19'|'UK'
+1003|89861186754|'www.linkedin.com'|'10.10.24.34'|'2010-10-16'|'US'
+1004|2323423|'www.runtastic.com'|'10.10.24.31'|'2010-12-24'|'US'
+1005|23458444363|'www.sabbatical.com'|'10.10.24.34'|'2010-12-21'|'AUS'
+1006|435443888356|'www.howstuffworks.com'|'11.10.24.34'|'2010-10-19'|'UK'
+1007|89862286754|'www.linkedin.com'|'9.10.24.34'|'2010-10-16'|'US'
+1008|23777723|'www.runtastic.com'|'5.10.24.34'|'2010-12-24'|'US'
+1009|23277754363|'www.sabbatical.com'|'10.10.24.34'|'2010-12-21'|'US'
+1010|92443544364356|'www.howstuffworks.com'|'10.10.24.34'|'2010-10-19'|'AUS'
+EOF
+
+/* ** Now copy this data into tables with partitions ***/ 
+
+CREATE TABLE page_view_NP(
+viewTime INT, 
+userid BIGINT,
+page_url STRING, 
+ip STRING COMMENT 'IP Address of the User',
+dt STRING,
+country STRING
+)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '|'
+STORED AS textfile;
+
+
+CREATE TABLE page_view_PP(
+viewTime INT, 
+userid BIGINT,
+page_url STRING, 
+ip STRING COMMENT 'IP Address of the User'
+)
+PARTITIONED BY(dt STRING, country STRING)
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '|'
+STORED AS textfile;
+
+LOAD DATA LOCAL INPATH '/home/cloudera/leopard.txt' OVERWRITE INTO TABLE page_view_PP
+PARTITION(dt='2010-12-24',country='US');
+
+hadoop fs -cat /user/hive/warehouse/page_view_PP/dt=2010-12-24/country=US/leopard.txt
+
+************************
+SELECT *  FROM page_view_PP 
+WHERE country = 'US' and dt='2010-12-24';
+
+
+
+
+*************
+
+
+
+
+======================================================================
+/* * before this the dynamic partitioning should be set on **/
+SET hive.exec.dynamic.partition = true;
+SET hive.exec.dynamic.partition.mode = nonstrict;
+
+CREATE TABLE page_view_ZP1 LIKE page_view_PP;
+
+
+INSERT OVERWRITE TABLE page_view_ZP1 PARTITION(dt, country) 
+SELECT viewTime, userid, page_url, ip, dt, country FROM page_view_NP;
+-- PARTITION COULD BE (year, month, day) in this order;
+
+-- __HIVE_DEFAULT_PARTITION__. if there is no partition to go to.
+
+SELECT * FROM page_view_ZP;
+
+
+lOAD DATA LOCAL INPATH '/home/cloudera/leopard.txt' OVERWRITE 
+INTO TABLE page_view_ZP PARTITION(dt='2000-01-01',country='NW') ;
+
+
+
+FROM page_view_NP 
+INSERT OVERWRITE LOCAL DIRECTORY '/home/cloudera/temp' 
+ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n'
+stored as textfile
+SELECT page_view_NP.country, SUM(page_view_NP.viewTime) 
+GROUP BY page_view_NP.country;
+
+
+
+CREATE TABLE page_view_ORC1(
+viewTime INT, 
+userid BIGINT,
+page_url STRING, 
+ip STRING COMMENT 'IP Address of the User'
+)
+PARTITIONED BY(dt STRING, country STRING)
+CLUSTERED BY (viewTime) INTO 3 buckets
+ROW FORMAT DELIMITED FIELDS TERMINATED BY '|'
+STORED AS ORC
+TBLPROPERTIES('transactional'='true');
+
+INSERT OVERWRITE TABLE page_view_ORC1 PARTITION(dt, country) 
+SELECT viewTime, userid, page_url, ip, dt, country FROM page_view_NP;
+
+SELECT * FROM page_view_ORC WHERE dt="'2010-12-24'" 
+
+set hive.auto.convert.join.noconditionaltask.size = 10000000;
+set hive.support.concurrency = true;
+set hive.enforce.bucketing = true;
+set hive.exec.dynamic.partition.mode = nonstrict;
+set hive.txn.manager = org.apache.hadoop.hive.ql.lockmgr.DbTxnManager;
+set hive.compactor.initiator.on = true;
+set hive.compactor.worker.threads = 1;
+
+UPDATE page_view_ORC SET page_url = "'www.pandapo.com'" WHERE userid = 2334423;
+
+
+
