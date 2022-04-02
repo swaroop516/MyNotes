@@ -1,0 +1,3 @@
+2022-04-02 18:33:43,709:INFO:Reading data frame from file
+2022-04-02 18:33:43,716:INFO:shape of input dataframe (10000, 4)
+2022-04-02 18:33:43,811:INFO:shape of output dataframe (432, 2)
