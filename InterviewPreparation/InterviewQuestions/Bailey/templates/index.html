@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block head %}
+{% endblock %}
+
+{% block body %}
+<div class="content">
+
+    <h1 class="header">
+        Ballys
+    </h1>
+    <style>
+        .required:after {
+          content:"*";
+          color: rgb(224, 82, 82);
+        }
+      </style>
+    <div class="error">
+    {{ error_statement }}
+    </div>
+        <form action="/get_member/" method="POST" class="form-style">
+            <label for="member" class="required">Member Id</label> 
+            <input type="text" name="member" id="member"><br><br>
+            <label for="game">Game Id</label> 
+            <input type="text" name="game" id="game"><br><br>
+            <label for="month">Month Played</label>
+            <input type="text" name="month" id="month"><br><br><br>
+            <input type="submit" class="button" value="Submit" href="/get_member/"><br>
+        </form>
+        <br>
+    <div>
+        <table>
+            <tr>
+                <th>MEMBER ID</th>
+                <th>GAME ID</th>
+                <th>MONTH</th>
+                <th>TOTAL_WIN_AMOUNT</th>
+                <th>TOTAL_WAGER_AMOUNT</th>
+                <th>TOTAL_NUMBER_OF_WAGERS</th>
+            </tr>
+            {% for row in rows %}
+                <tr>
+                    <td>{{row[0]}}</td>
+                    <td>{{row[1]}}</td>
+                    <td>{{row[2]}}</td>
+                    <td>{{row[3]}}</td>
+                    <td>{{row[4]}}</td>
+                    <td>{{row[5]}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="norow">
+        {{no_row_statement}}
+    </div>
+</div>
+{% endblock %}

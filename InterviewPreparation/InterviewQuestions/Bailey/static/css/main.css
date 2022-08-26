@@ -1,0 +1,42 @@
+.header {
+    margin-left: 2px;
+    margin-top: 2px;
+    color: blue;
+}
+body {
+    margin: 0;
+    font-family: sans-serif;
+}
+
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 10px;
+    border-spacing: 30px;
+    margin-left: 15px;
+  }
+.form-style{
+    margin-left: 15px;
+    color: blueviolet;
+}
+
+.error{
+    margin-left: 15px;
+    color: red;
+    size: 10px;
+    padding-bottom: 15px;
+}
+
+
+.norow{
+    margin-left: 15px;
+    color: red;
+    size: 10px;
+    padding-top: 20px;
+}
+
+/* .button {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    background-color: cornflowerblue;
+    box-sizing: border-box;
+} */

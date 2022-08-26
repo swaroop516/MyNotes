@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "code": 1234,
+    "data": [
+      {
+        "region": "r1",
+        "clicks": 100,
+        "views": 300,
+        "temp": {
+          "min": 12,
+          "max": 20
+        }
+      },
+      {
+        "region": "r2",
+        "clicks": 100,
+        "views": 300,
+        "temp": {
+          "min": 14,
+          "max": 17
+        }
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "code": 6792,
+    "data": [
+      {
+        "region": "r1",
+        "clicks": 100,
+        "views": 300,
+        "temp": {
+          "min": 12,
+          "max": 20
+        }
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "code": 4567,
+    "data": [
+      {
+        "region": "r1",
+        "clicks": 100,
+        "views": 300,
+        "temp": {
+          "min": 12,
+          "max": 20
+        }
+      },
+      {
+        "region": "r2",
+        "clicks": 100,
+        "views": 300,
+        "temp": {
+          "min": 14,
+          "max": 17
+        }
+      },
+      {
+        "region": "r3",
+        "clicks": 100,
+        "views": 300,
+        "temp": {
+          "min": 14,
+          "max": 17
+        }
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "code": 9183,
+    "data": [
+      {
+        "region": "r1",
+        "clicks": 100,
+        "views": 300,
+        "temp": {
+          "min": 12,
+          "max": 20
+        }
+      },
+      {
+        "region": "r2",
+        "clicks": 100,
+        "views": 300,
+        "temp": {
+          "min": 14,
+          "max": 17
+        }
+      }
+    ]
+  }
+]
