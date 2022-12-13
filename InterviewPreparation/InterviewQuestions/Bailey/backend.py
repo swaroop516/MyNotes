@@ -11,7 +11,7 @@ def member_details(member_id, game_id=None, month=None):
     mydb = mysql.connector.connect(
     host="localhost",
     user="root",
-    password="******",
+    password="Svvs123!",
     database="weather_db"
     )
     db_conn = mydb.cursor()
