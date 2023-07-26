@@ -1,0 +1,20 @@
+GCP
+GCS - similar to s3
+IAM - similar to AWS IAM, azure AAD
+Cloud function - Similar to Lambda and Azure function.
+Service principle - If any application, needs to access google cloud service, then service principle has to create.
+Cloud sql - similar to AWS RDS, it provides only sql server, postgres, mysql
+Google cloud spanner - OLTP database in google
+Data store - NoSql database in google. Tables are called kind.
+Fire store - Upgraded version of google data store. Tabkes are called collections.
+Cloud memory store - Cache service in google cloud, it provides redis and MemSql
+Google cloud Bigtable - Widecolumn NoSql database, similar to Cassandra
+Google cloud Bigquery - Analytic database, for datawarehousing
+Google Pubsub - Asyncronous publisher and subscription based delivery of message.
+Cloud dataflow - For batch and streaming. Cloud version of Apache Beam.
+Cloud dataproc - Spark/Hadoop based platform.
+Cloud datafusion - ETL
+Cloud composer - Apache airflow in GCP
+Data catalog- Metadata management service in GCP
+Data Prep- Cloud-based data preparation and transformation tool in GCP.
+Google Data studio- For reporting purpose, business intellingence tool.

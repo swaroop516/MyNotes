@@ -1,0 +1,6 @@
+AWS Resources
+https://iac-bootstrap.readthedocs.io/en/latest/naming/
+
+Scala
+https://github.com/databricks/scala-style-guide
+

@@ -1,0 +1,127 @@
+Database -> Database
+Tables -> Collections
+Rows -> Documents
+
+# use the database, even if the db doesnt exist it will switch
+use db
+
+
+# Insert one row data
+[database].[collection].insertOne(document)
+
+eg-
+db.students.insertOne({ id: 6, name: 'mona', gender: 'M', age: 23});
+
+# Insert one row data
+[database].[collection].insertMany([list of document])
+
+eg-
+db.students.insertMany([
+  { id: 1, name: 'Ryan', gender: 'M' },
+  { id: 2, name: 'Joanna', gender: 'F' },
+  { id: 3, name: 'kunna', gender: 'F', age: 20},
+  { id: 4, name: 'poanna', gender: 'M', age: 18},
+  { id: 5, name: 'nanna', gender: 'F', age: 21}
+]);
+
+# this is equivalent to select * from collection
+[database].[collection].find()
+
+eg-
+db.students.find()
+
+
+# this is equivalent to select column1, column2 from collection
+[database].[collection].find({}, {[column1]:1, [column2]: 1})
+
+eg-
+db.students.find({}, {name:1, gender: 1})
+
+# Limit to n rows
+[database].[collection].find().limit(n)
+
+db.students.find().limit(5)
+
+# Filterring rows
+[database].[collection].find({Filter})
+
+eg-
+db.students.find({gender: 'F'})
+
+# and condition
+[database].[collection].find({Filter1, Filter2})
+
+db.students.find({gender: 'F', age: {$gt: 20}})
+
+# or condition
+db.students.find({$or : [{gender: 'M'}, {age: {$gt: 19}}]})
+
+# Filtering with mathematical, $gt >, $gte >=, $lt <, $lte <=
+db.students.find({age: {$gt: 20}})
+
+# $in -> in
+db.students.find({age: {$in: [20, 21]}})
+
+# $nin -> notin
+db.students.find({age: {$nin: [20, 21]}})
+
+# Filter subjects array contain Maths and science, it doesnt matter of other elements in the array
+db.students.find({subjects: {$all: ['Maths', 'Science']}})
+
+# Sort rows, {column:1} -> Ascending, {column:-1} -> Descending
+
+eg-
+db.students.sort({age: 1})
+
+# Filter for nested array
+db.students.find({'marks.totalmarks': {$gt: 450}})
+
+# Delete One
+db.students.deleteOne({_id: ObjectId("id")})
+
+# Delete Many
+db.students.deleteMany({name: "Ryan"})
+
+# Update
+db.students.updateOne({_id: ObjectId("id")}, {$set: {age: 20}})
+
+# $pull and $push can be used to modify arrays, to add multiple values to arrays $each can be used
+
+db.students.updateOne({_id: ObjectId("id")}, {$pull: {subjects: "Biology"}})
+
+db.students.updateOne({_id: ObjectId("id")}, {$push: {subjects: "Biology"}})
+
+db.students.updateOne({_id: ObjectId("id")}, {$each: {subjects: ["Biology", "science]}})
+
+
+# Data
+db.students.insertMany([
+  { id: 1, name: 'Ryan', gender: 'M', subjects: ['Maths', 'English', 'Science'],
+      marks: [{name: "halfterm", totalmarks: 320},
+                {name: "finalterm", totalmarks: 520}]
+  },
+  { id: 2, name: 'Joanna', gender: 'F', subjects: ['Maths', 'Science'],
+      marks: [{name: "halfterm", totalmarks: 350},
+                {name: "finalterm", totalmarks: 420}]
+  },
+  { id: 3, name: 'kunna', gender: 'F', age: 20, subjects: ['Biology', 'Science', 'Maths'],
+      marks: [{name: "halfterm", totalmarks: 420},
+                {name: "finalterm", totalmarks: 320}]},
+  { id: 4, name: 'poanna', gender: 'M', age: 18, subjects: ['Biology', 'English'],
+      marks: [{name: "halfterm", totalmarks: 350},
+                {name: "finalterm", totalmarks: 550}]},
+  { id: 5, name: 'nanna', gender: 'F', age: 21, subjects: ['Biology'],
+      marks: [{name: "halfterm", totalmarks: 380},
+                {name: "finalterm", totalmarks: 420}]}
+]);
+
+db.students.insertOne({ id: 6, name: 'mona', gender: 'M', age: 23,
+subjects: ['Biology', 'Science'],
+      marks: [{name: "halfterm", totalmarks: 550},
+                {name: "finalterm", totalmarks: 550}]});
+
+
+
+
+
+

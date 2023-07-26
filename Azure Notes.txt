@@ -1,0 +1,16 @@
+1. Subscription - Cost will be done in this level
+2. Resource group - Every service should be tagged to resource group. Subscriptions will have many resource groups under it. It is free of cost.
+3. VM
+3.1 Auto shutdowns - To reduce Cost
+3.2 Reserved instance - By paying upfront.
+3.3 Spot instance - Unused capacity in azure can be used. it reduces cost.
+3.4 Disk optimization - Default is premium ssd. So change that will reduce cost.
+4. Availability concepts
+4.1 Fault Domain - When the entire rack goes down.
+4.2 Update Domain - Will be down when there are any updates
+4.3 Availability set - 
+5. ARM template - json based template to deploy resources in declarative way.
+6. Scale set - Group of seperate VMs with same image. This is common service to use in load balancing. To scale out or scale in vms. There is configuraion to increase the vms based on usage percentage or similar metrics to scale in and scale out.
+7. Azure instance metadata services - Rest api way of accessing the VM information, like storage, networking, scheduled events
+8. App services - Fully managed web hosting compute engine for websites. It can be autoscaled by configuring metrics.
+9. AKS - Pay only for the instances used in it.

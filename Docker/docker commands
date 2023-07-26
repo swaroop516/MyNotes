@@ -1,0 +1,6 @@
+docker container ls         # to show all running containers
+docker container ls -a      # to show all containers created till this minute
+
+docker system prune --all   # To remove all containers
+
+docker 

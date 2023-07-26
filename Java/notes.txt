@@ -1,0 +1,39 @@
+Important points
+1. Java program can contain at most one public class.
+2. If program contains morethan one class, name of the file should be the class which is public.
+3. If program contains morethan one class, and none of the class is public, then program file can be named as any name.
+4. There is no relation between filename and the class which has main method should be the name of the file.
+5. If program contains morethan one class, then .class files will be genereted for all the classes which has main method available in program.
+6. If the class is final then child class is not possible. Else it is possible.
+7. For Top level classes these modifiers can be used. (public, defualt, abstract, final)
+8. For lower level class (proteced, private, static)
+9. If class/method is default, then it cant be used outside the package, it can be accessed only inside package.
+10. Abstract method is only for declaration but not for implementation.
+11. For Abstact class, object creation is not possible.
+12. If class contains, abstract method then it should abstract class.
+13. Abstract class contains the non abstract methods. 
+14. If abstract class contains morethan one abstract method, then child should implement all abstract methods in abstract class, else it will throw complie time error.
+15. All child class should implement the abstract method in the abstract class, else it will compile error.
+16. If class is not accessable, then eventhough member is public, it can be used in other classes.
+17. Modifier and its access level.
+    public -> everywhere
+    default -> with in package
+    private -> with in class
+    protected -> with in package and child class in outside package
+18. Outside the package, protected method can only accessed by child object/reference.
+However, with in the package protected object it can be accessed by both parent and child objects or references.
+19. Any interface method should be in public while implementation.
+20. Child class should implement all the interface methods.
+21. If Child class cant implement all methods of interface, then by making child class as abstract will solve the compile error.
+22. Java doesnt support multiple, hybrid inheritance is not possible due to ambiguity issue
+23. Interface supports multiple, hybrid inheritance is not possible, due to interface can be implemented in class, so there is no chance of ambiguity.
+24. Overloading happens, if two methods are in same name and different data type in arguments, then method overloading happens while method calling.
+25. Overriding is possible, if child method wants to change the functionality of parent method, it happens when name of method and parameters are of same data type then overriding happens.
+26. if method is declared as final method, then overriding is not possible
+27. while overriding, scope of method cant be reduced, like public in parent to private in child. However scope can be increased. Like parent modifier is protected, but child modifier is public so this is possible.
+28. there is no concept of overriding in private, as private method cant be used in child. Child method is not overridden but it creates new method.
+29. 
+
+
+
+
